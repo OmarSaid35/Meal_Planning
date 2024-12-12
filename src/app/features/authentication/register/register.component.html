@@ -1,0 +1,66 @@
+<div class="register-page">
+  <div class="register-container">
+    <!-- Left Section -->
+    <div class="left-section">
+      <div class="register-info">
+        <img src="assets/blackstar.png" alt="Black Star" class="star-icon" />
+        <h1>Join to a world full of Recipes!</h1>
+        <p>Create an account now and join us</p>
+      </div>
+      <form (ngSubmit)="onRegister()" class="register-form">
+        <div class="input-container">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="username"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+        <div class="input-container">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="input-container">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <div class="input-container">
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="Confirm your password"
+            required
+          />
+        </div>
+        <button type="submit" class="register-btn">Sign Up</button>
+      </form>
+      <p class="login-link">
+        Already have an account? <a routerLink="/auth/login">Sign In</a>
+      </p>
+    </div>
+    <!-- Right Section -->
+    <div class="right-section">
+      <img
+        src="assets/man in black trousers running.png"
+        alt="Man Running"
+        class="running-image"
+      />
+    </div>
+  </div>
+</div>
