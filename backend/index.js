@@ -22,24 +22,26 @@ app.use(bodyParser.json()); // Parse JSON body
 
 // Registration Route
 app.post('/register', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const userRecord = await admin.auth().createUser({ email, password });
-  
-      await db.collection('users').doc(userRecord.uid).set({
-        email: userRecord.email,
-        password, // Include password for testing (remove for production)
-        createdAt: new Date().toISOString(),
-      });
-  
-      res.status(201).send({ message: 'User registered successfully!' });
-    } catch (error) {
-      console.error('Error during registration:', error); // Log error
-      res.status(500).send({ message: 'Registration failed', error: error.message });
-    }
-  });
+  const { username, email, password } = req.body;
 
+  try {
+    const userRecord = await admin.auth().createUser({ email, password });
+
+    // Store user data in Firestore
+    await db.collection('users').doc(userRecord.uid).set({
+      userId: userRecord.uid,
+      username,
+      email: userRecord.email,
+      password: password, // Storing password in plain text
+      createdAt: new Date().toISOString(),
+    });
+
+    res.status(201).send({ message: 'User registered successfully!' });
+  } catch (error) {
+    console.error('Error during registration:', error);
+    res.status(500).send({ message: 'Registration failed', error: error.message });
+  }
+});
 // Login Route
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
