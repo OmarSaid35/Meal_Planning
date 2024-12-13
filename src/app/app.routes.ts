@@ -8,5 +8,12 @@ export const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./features/profile/myprofile/myprofile.component').then(
+        (m) => m.MyprofileComponent
+      ),
+  },
   { path: '', redirectTo: '/auth/register', pathMatch: 'full' }, // Default route
 ];
