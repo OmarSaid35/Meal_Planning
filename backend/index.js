@@ -13,7 +13,8 @@ const db = admin.firestore();
 
 const app = express();
 const PORT = 3000;
-
+  const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 // Middleware
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json()); // Parse JSON body
@@ -39,7 +40,65 @@ app.post('/register', async (req, res) => {
       res.status(500).send({ message: 'Registration failed', error: error.message });
     }
   });
+  app.post('/post-recipe', async (req, res) => {
+    const { title, instructions, ingredients, imageUrl, authorId } = req.body;
+  
+    // Validate required fields
+    if (!title || !instructions) {
+      return res.status(400).send({
+        message: 'Title and instructions are required fields.',
+      });
+    }
+  
+    try {
+      // Create a new recipe object
+      const newRecipe = {
+        title,
+        instructions,
+        ingredients: ingredients || [], // Default to an empty array if not provided
+        imageUrl: imageUrl || '', // Default to an empty string if not provided
+        authorId: authorId || 'anonymous', // Default to 'anonymous' if not provided
+        timestamp: new Date().toISOString(),
+        likes: [], // Initialize likes as an empty array
+        comments: [], // Initialize comments as an empty array
+      };
+  
+      // Save the recipe to the 'Posts' collection
+      const docRef = await db.collection('Posts').add(newRecipe);
+  
+      res.status(201).send({
+        message: 'Recipe posted successfully!',
+        postId: docRef.id,
+      });
+    } catch (error) {
+      console.error('Error posting recipe:', error);
+      res.status(500).send({
+        message: 'Failed to post the recipe.',
+        error: error.message,
+      });
+    }
+  });
 
+
+app.post('/upload-image', upload.single('image'), async (req, res) => {
+  try {
+    const bucket = admin.storage().bucket();
+    const fileName = `recipes/${Date.now()}_${req.file.originalname}`;
+    const file = bucket.file(fileName);
+
+    await file.save(req.file.buffer);
+
+    const imageUrl = await file.getSignedUrl({
+      action: 'read',
+      expires: '03-01-2500', // Set expiration far in the future
+    });
+
+    res.status(200).send({ imageUrl: imageUrl[0] });
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    res.status(500).send({ message: 'Failed to upload image', error: error.message });
+  }
+});
 // Login Route
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
