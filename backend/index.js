@@ -13,8 +13,8 @@ const db = admin.firestore();
 
 const app = express();
 const PORT = 3000;
-  const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() });
+//const multer = require('multer');
+//const upload = multer({ storage: multer.memoryStorage() });
 // Middleware
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json()); // Parse JSON body
@@ -80,25 +80,7 @@ app.post('/register', async (req, res) => {
   });
 
 
-app.post('/upload-image', upload.single('image'), async (req, res) => {
-  try {
-    const bucket = admin.storage().bucket();
-    const fileName = `recipes/${Date.now()}_${req.file.originalname}`;
-    const file = bucket.file(fileName);
 
-    await file.save(req.file.buffer);
-
-    const imageUrl = await file.getSignedUrl({
-      action: 'read',
-      expires: '03-01-2500', // Set expiration far in the future
-    });
-
-    res.status(200).send({ imageUrl: imageUrl[0] });
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    res.status(500).send({ message: 'Failed to upload image', error: error.message });
-  }
-});
 // Login Route
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;

@@ -2,11 +2,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'post',
+    path: 'auth',
     loadChildren: () =>
-      import('./features/posts/posts-routing.module').then(
-        (m) => m.PostsRoutingModule
+      import('./features/authentication/authentication-routing.module').then(
+        (m) => m.AuthenticationRoutingModule
       ),
   },
-  { path: '', redirectTo: '/post/post-recipe', pathMatch: 'full' }, // Default route
+  { path: '', redirectTo: '/auth/register', pathMatch: 'full' }, // Default route
 ];
