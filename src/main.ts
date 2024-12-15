@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { appConfig } from './app/app.config';
 
 
 bootstrapApplication(AppComponent, {
