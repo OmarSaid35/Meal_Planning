@@ -23,13 +23,17 @@ export class LoginComponent {
   
     this.http.post('http://localhost:3000/login', userData).subscribe(
       (response: any) => {
-        console.log('Login successful:', response);
-        alert('Welcome! You have successfully logged in.');
+        console.log('API Response:', response);
   
-        // Adjust to use `username` from the API response
-        const username = response.username; // Ensure this matches your API response key
-        localStorage.setItem('username', username); // Store the username
-        this.router.navigate(['/profile']); // Navigate to the profile page
+        if (response && response.username) {
+          localStorage.setItem('username', response.username);
+          localStorage.setItem('userId', response.userId);
+          localStorage.setItem('email', response.email);
+          localStorage.setItem('profilePic', response.profilePic);
+          this.router.navigate(['/profile']); // Redirect to profile page
+        } else {
+          alert('Login response did not contain expected data.');
+        }
       },
       (error) => {
         console.error('Login failed:', error);
@@ -37,5 +41,5 @@ export class LoginComponent {
       }
     );
   }
-  
+      
 }
