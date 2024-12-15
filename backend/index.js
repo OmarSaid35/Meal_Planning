@@ -13,7 +13,8 @@ const db = admin.firestore();
 
 const app = express();
 const PORT = 3000;
-
+//const multer = require('multer');
+//const upload = multer({ storage: multer.memoryStorage() });
 // Middleware
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json()); // Parse JSON body
@@ -22,26 +23,64 @@ app.use(bodyParser.json()); // Parse JSON body
 
 // Registration Route
 app.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
+    const { email, password } = req.body;
+  
+    try {
+      const userRecord = await admin.auth().createUser({ email, password });
+  
+      await db.collection('users').doc(userRecord.uid).set({
+        email: userRecord.email,
+        password, // Include password for testing (remove for production)
+        createdAt: new Date().toISOString(),
+      });
+  
+      res.status(201).send({ message: 'User registered successfully!' });
+    } catch (error) {
+      console.error('Error during registration:', error); // Log error
+      res.status(500).send({ message: 'Registration failed', error: error.message });
+    }
+  });
+  app.post('/post-recipe', async (req, res) => {
+    const { title, instructions, ingredients, imageUrl, authorId } = req.body;
+  
+    // Validate required fields
+    if (!title || !instructions) {
+      return res.status(400).send({
+        message: 'Title and instructions are required fields.',
+      });
+    }
+  
+    try {
+      // Create a new recipe object
+      const newRecipe = {
+        title,
+        instructions,
+        ingredients: ingredients || [], // Default to an empty array if not provided
+        imageUrl: imageUrl || '', // Default to an empty string if not provided
+        authorId: authorId || 'anonymous', // Default to 'anonymous' if not provided
+        timestamp: new Date().toISOString(),
+        likes: [], // Initialize likes as an empty array
+        comments: [], // Initialize comments as an empty array
+      };
+  
+      // Save the recipe to the 'Posts' collection
+      const docRef = await db.collection('Posts').add(newRecipe);
+  
+      res.status(201).send({
+        message: 'Recipe posted successfully!',
+        postId: docRef.id,
+      });
+    } catch (error) {
+      console.error('Error posting recipe:', error);
+      res.status(500).send({
+        message: 'Failed to post the recipe.',
+        error: error.message,
+      });
+    }
+  });
 
-  try {
-    const userRecord = await admin.auth().createUser({ email, password });
 
-    // Store user data in Firestore
-    await db.collection('users').doc(userRecord.uid).set({
-      userId: userRecord.uid,
-      username,
-      email: userRecord.email,
-      password: password, // Storing password in plain text
-      createdAt: new Date().toISOString(),
-    });
 
-    res.status(201).send({ message: 'User registered successfully!' });
-  } catch (error) {
-    console.error('Error during registration:', error);
-    res.status(500).send({ message: 'Registration failed', error: error.message });
-  }
-});
 // Login Route
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;

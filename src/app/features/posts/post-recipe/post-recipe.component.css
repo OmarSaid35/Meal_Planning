@@ -1,0 +1,64 @@
+.input-container {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .input-container input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    padding: 8px 0;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #000;
+    background-color: transparent;
+  }
+  
+  .input-container input::placeholder {
+    color: #aaa;
+    font-size: 14px;
+  }
+  .register-form {
+    width: 100%;
+  }
+  .form-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+  }
+  

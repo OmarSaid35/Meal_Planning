@@ -4,8 +4,8 @@ export const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
-      import('./features/authentication/authentication.module').then(
-        (m) => m.AuthenticationModule
+      import('./features/authentication/authentication-routing.module').then(
+        (m) => m.AuthenticationRoutingModule
       ),
   },
   { path: '', redirectTo: '/auth/register', pathMatch: 'full' }, // Default route
