@@ -16,15 +16,24 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   onLogin() {
     const userData = { email: this.email, password: this.password };
-
+  
     this.http.post('http://localhost:3000/login', userData).subscribe(
       (response: any) => {
-        console.log('Login successful:', response);
-        alert('Welcome! You have successfully logged in.');
+        console.log('API Response:', response);
+  
+        if (response && response.username) {
+          localStorage.setItem('username', response.username);
+          localStorage.setItem('userId', response.userId);
+          localStorage.setItem('email', response.email);
+          localStorage.setItem('profilePic', response.profilePic);
+          this.router.navigate(['/profile']); // Redirect to profile page
+        } else {
+          alert('Login response did not contain expected data.');
+        }
       },
       (error) => {
         console.error('Login failed:', error);
@@ -32,4 +41,5 @@ export class LoginComponent {
       }
     );
   }
+      
 }
