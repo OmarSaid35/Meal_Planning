@@ -36,5 +36,9 @@
     <button type="submit" [disabled]="isLoading">
       {{ isLoading ? 'Posting...' : 'Post Recipe' }}
     </button>
+    <!-- Cancel Button -->
+    <button type="submit" class="Cancel" routerLink="/recipes">
+      Cancel
+    </button>
   </form>
 </div>

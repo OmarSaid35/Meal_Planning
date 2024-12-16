@@ -19,8 +19,7 @@ export const routes: Routes = [
         (m) => m.MyprofileComponent
       ),
   },  { path: 'post-recipe', component: PostRecipeComponent },
-  { path: 'recipes', component: RecipesComponent },  { path: 'bookmarked', component: BookmarkedComponent },
-  { path: '', redirectTo: '/profile', pathMatch: 'full' }, // Default route
+  { path: 'recipes', component: RecipesComponent },  { path: 'bookmarked', component: BookmarkedComponent }, // Default route
   { path: '', redirectTo: '/auth/register', pathMatch: 'full' }, // Default route
 
   {
