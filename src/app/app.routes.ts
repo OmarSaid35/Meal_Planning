@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { PlanningMealComponent } from './features/planning/planning-meal/planning-meal.component'; // تأكد من استيراد المكون بشكل صحيح
 
 export const routes: Routes = [
   {
@@ -16,4 +17,23 @@ export const routes: Routes = [
       ),
   },
   { path: '', redirectTo: '/auth/register', pathMatch: 'full' }, // Default route
+
+  {
+    path: 'meal-planning',
+    loadComponent: () =>
+      import('./features/planning/planning-meal/planning-meal.component').then(
+        (m) => m.PlanningMealComponent
+      ),
+  },
+  {
+    path: 'planning',
+    component: PlanningMealComponent,
+  },
+  { path: '', redirectTo: '/planning', pathMatch: 'full' }, // تأكد من أن هذه المسار هو المسار الافتراضي
 ];
+
+
+
+
+
+

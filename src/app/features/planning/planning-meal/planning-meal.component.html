@@ -1,0 +1,38 @@
+<div class="meal-planner">
+    <h1>Meal Planner</h1>
+  
+    <div class="days-container">
+      <div *ngFor="let day of days" class="day-box">
+        <h2>{{ day }}</h2>
+  
+        <div class="meal-input">
+          <!-- ليست بوكس لاختيار الوصفة -->
+          <select [(ngModel)]="selectedRecipe[day]">
+            <option *ngFor="let recipe of recipes" [ngValue]="recipe">{{ recipe.name }}</option>
+          </select>
+  
+          <!-- ليست بوكس لاختيار نوع الوجبة -->
+          <select [(ngModel)]="mealTypes[day]">
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="snack">snack</option>
+
+          </select>
+  
+          <!-- زر الإضافة -->
+          <button (click)="addMeal(day)">Add</button>
+        </div>
+  
+        <!-- قائمة الوجبات المضافة -->
+        <ul>
+          <li *ngFor="let meal of selectedMeals[day]">
+            <strong>{{ meal.recipe.name }}</strong> ({{ meal.type }})<br />
+            <em>{{ meal.recipe.description }}</em>
+            <button (click)="removeMeal(day, meal)">Remove</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
