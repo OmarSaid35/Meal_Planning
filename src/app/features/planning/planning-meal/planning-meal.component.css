@@ -10,7 +10,40 @@
     gap: 15px; /* مسافة بين المربعات */
     justify-content: center; /* توسيط المربعات */
   }
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5rem;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
   
+  .logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #000;
+  }
+  
+  .nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+  
+  .nav-item {
+    font-size: 1rem;
+    color: #000;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+  }
+  
+  .nav-item.active {
+    background: #000;
+    color: #fff;
+  }
   .day-box {
     background-color: #f9f9f9; /* لون خلفية فاتح */
     border: 1px solid #ddd; /* حدود خفيفة */
@@ -78,4 +111,95 @@
   li button:hover {
     background-color: #a71d2a; /* لون أحمر أغمق عند التمرير */
   }
+  /* Footer */
+  .footer {
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 4rem 5rem;
+  }
   
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .footer-brand {
+    margin-right: 4rem;
+  }
+  
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-link {
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 4rem;
+  }
+  
+  .link-group h4 {
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  
+  .link-group a {
+    display: block;
+    color: #666;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .recipe-card {
+      grid-template-columns: 1fr;
+    }
+  
+    .recipe-image {
+      order: -1;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header,
+    .main-content,
+    .footer {
+      padding: 1.5rem;
+    }
+  
+    .page-title {
+      font-size: 2rem;
+    }
+  
+    .recipe-title {
+      font-size: 2rem;
+    }
+  
+    .footer-content {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  
+    .footer-links {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
