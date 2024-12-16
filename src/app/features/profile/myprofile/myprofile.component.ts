@@ -1,8 +1,13 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-myprofile',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './myprofile.component.html',
   styleUrls: ['./myprofile.component.css'],
 })
@@ -18,12 +23,15 @@ export class MyprofileComponent implements OnInit {
 
   followersCount: number = 0;
   followingCount: number = 0;
+  userId: string = this.getLoggedInUserId();
+  userPosts: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router: Router) { }
 
   ngOnInit(): void {
     const userId = this.getLoggedInUserId(); // Replace with the actual method to get the logged-in user's ID
     this.fetchUserStats(userId);
+    this.fetchUserPosts();
   }
 
   // Method to trigger the file input click event
@@ -72,8 +80,23 @@ export class MyprofileComponent implements OnInit {
     });
   }
 
+  fetchUserPosts() {
+    this.http.get<any[]>(`http://localhost:3000/userPosts/${this.userId}`).subscribe(
+      (posts) => {
+        this.userPosts = posts;
+      },
+      (error) => {
+        console.error('Error fetching user posts:', error);
+      }
+    );
+  }
+
   getLoggedInUserId(): string {
     // Mock example - Replace this with the actual logic to get the logged-in user's ID
     return localStorage.getItem('userId') || '';
+  }
+
+  navigateToCommunity() {
+    this.router.navigate(['/posts/post-recipe']);
   }
 }
