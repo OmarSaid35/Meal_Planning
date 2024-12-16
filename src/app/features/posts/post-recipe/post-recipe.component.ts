@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import imageCompression from 'browser-image-compression';
 @Component({
   selector: 'app-post-recipe',
   templateUrl: './post-recipe.component.html',
@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule, RouterModule],
 })
+
 export class PostRecipeComponent {
   title: string = '';
   instructions: string = '';
@@ -22,22 +23,13 @@ export class PostRecipeComponent {
   imageUrl: string = ''; // Uploaded image URL
   constructor(private http: HttpClient, private router: Router) {}
 
-  // Handle image selection
-  onImageSelected(event: any) {
-    this.imageFile = event.target.files[0];
-    this.uploadImage();
-  }
-
-  // Upload image to backend or Firebase
-  uploadImage() {
-    if (!this.imageFile) return;
-
+  uploadImage(file: File) {
     const formData = new FormData();
-    formData.append('image', this.imageFile);
-
+    formData.append('image', file);
+  
     this.http.post('http://localhost:3000/upload-image', formData).subscribe(
       (response: any) => {
-        this.imageUrl = response.imageUrl; // Save the uploaded image URL
+        this.imageUrl = response.imageUrl;
         console.log('Image uploaded successfully:', this.imageUrl);
       },
       (error) => {
@@ -45,6 +37,14 @@ export class PostRecipeComponent {
         alert('Failed to upload image.');
       }
     );
+  }
+  
+  
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.uploadImage(file);
+    }
   }
 
   // Submit the recipe
@@ -61,7 +61,7 @@ export class PostRecipeComponent {
       instructions: this.instructions,
       ingredients: this.ingredients.split(',').map((ing) => ing.trim()), // Convert string to array
       imageUrl: this.imageUrl,
-      authorId: 'currentUserId', // Replace with actual user ID (if applicable)
+      authorId: localStorage.getItem('userId'), // Replace with actual user ID (if applicable)
     };
 
     this.http.post('http://localhost:3000/post-recipe', recipeData).subscribe(
@@ -79,4 +79,5 @@ export class PostRecipeComponent {
       }
     );
   }
+  
 }

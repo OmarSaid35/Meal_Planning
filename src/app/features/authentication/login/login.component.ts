@@ -30,7 +30,7 @@ export class LoginComponent {
           localStorage.setItem('userId', response.userId);
           localStorage.setItem('email', response.email);
           localStorage.setItem('profilePic', response.profilePic);
-          this.router.navigate(['/profile']); // Redirect to profile page
+          this.router.navigate(['/post-recipe']); // Redirect to profile page
         } else {
           alert('Login response did not contain expected data.');
         }
