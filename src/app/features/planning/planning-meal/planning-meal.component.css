@@ -1,0 +1,81 @@
+.meal-planner {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .days-container {
+    display: flex;
+    flex-wrap: wrap; /* للسماح بانتقال العناصر إذا كانت الشاشة صغيرة */
+    gap: 15px; /* مسافة بين المربعات */
+    justify-content: center; /* توسيط المربعات */
+  }
+  
+  .day-box {
+    background-color: #f9f9f9; /* لون خلفية فاتح */
+    border: 1px solid #ddd; /* حدود خفيفة */
+    border-radius: 8px; /* زوايا دائرية */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ظل خفيف */
+    padding: 15px;
+    width: 200px; /* عرض محدد لكل مربع */
+    text-align: left;
+  }
+  
+  .day-box h2 {
+    margin-top: 0;
+    color: #333; /* لون النص */
+  }
+  
+  .meal-input {
+    margin-bottom: 10px;
+  }
+  
+  select, button {
+    width: 100%; /* جعل الأزرار والقوائم بعرض المربع */
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #007bff; /* لون أزرق للزر */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* لون أغمق عند التمرير */
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    margin-bottom: 5px;
+  }
+  
+  li strong {
+    font-size: 14px;
+  }
+  
+  li em {
+    font-size: 12px;
+    color: #666; /* لون فاتح للوصف */
+  }
+  
+  li button {
+    background-color: #dc3545; /* لون أحمر لزر الإزالة */
+    color: white;
+    border: none;
+    margin-top: 5px;
+  }
+  
+  li button:hover {
+    background-color: #a71d2a; /* لون أحمر أغمق عند التمرير */
+  }
+  
