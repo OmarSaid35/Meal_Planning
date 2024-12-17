@@ -128,10 +128,12 @@ export class RecipeDiscoveryComponent {
   ngOnInit() {
     // Fetch logged-in user from UserService
     this.loggedInUser = this.userService.getUser();
-
+  
     if (!this.loggedInUser) {
       console.error('No user is logged in. Redirecting to login.');
-      // You can redirect the user to login here
+      alert('Please log in to continue.'); // Notify user
+      // Optionally, redirect to login page
+      window.location.href = '/login';
     }
   }
 

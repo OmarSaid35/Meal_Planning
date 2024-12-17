@@ -1,205 +1,234 @@
+/* General Styling */
 .meal-planner {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-  }
-  
-  .days-container {
-    display: flex;
-    flex-wrap: wrap; /* للسماح بانتقال العناصر إذا كانت الشاشة صغيرة */
-    gap: 15px; /* مسافة بين المربعات */
-    justify-content: center; /* توسيط المربعات */
-  }
-  /* Header */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 5rem;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .logo {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #000;
-  }
-  
-  .nav {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-  
-  .nav-item {
-    font-size: 1rem;
-    color: #000;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-  }
-  
-  .nav-item.active {
-    background: #000;
-    color: #fff;
-  }
-  .day-box {
-    background-color: #f9f9f9; /* لون خلفية فاتح */
-    border: 1px solid #ddd; /* حدود خفيفة */
-    border-radius: 8px; /* زوايا دائرية */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ظل خفيف */
-    padding: 15px;
-    width: 200px; /* عرض محدد لكل مربع */
-    text-align: left;
-  }
-  
-  .day-box h2 {
-    margin-top: 0;
-    color: #333; /* لون النص */
-  }
-  
-  .meal-input {
-    margin-bottom: 10px;
-  }
-  
-  select, button {
-    width: 100%; /* جعل الأزرار والقوائم بعرض المربع */
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    background-color: #007bff; /* لون أزرق للزر */
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3; /* لون أغمق عند التمرير */
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  li {
-    margin-bottom: 5px;
-  }
-  
-  li strong {
-    font-size: 14px;
-  }
-  
-  li em {
-    font-size: 12px;
-    color: #666; /* لون فاتح للوصف */
-  }
-  
-  li button {
-    background-color: #dc3545; /* لون أحمر لزر الإزالة */
-    color: white;
-    border: none;
-    margin-top: 5px;
-  }
-  
-  li button:hover {
-    background-color: #a71d2a; /* لون أحمر أغمق عند التمرير */
-  }
-  /* Footer */
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.days-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.day-box {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 220px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.day-box h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: #000;
+}
+
+.meal-input {
+  margin-bottom: 10px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+button {
+  width: 100%;
+  padding: 8px;
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+li strong {
+  font-size: 14px;
+  color: #000;
+}
+
+li em {
+  font-size: 12px;
+  color: #666;
+}
+
+li button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  margin-top: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+li button:hover {
+  background-color: #a71d2a;
+}
+
+/* Header Styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5rem;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Navigation Styling */
+.nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-item {
+  font-size: 1rem;
+  color: #000;
+  text-decoration: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem; /* Oval shape */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+.nav-item:hover {
+  background-color: #000; 
+  color: #fff; 
+  transform: scale(1.05); 
+}
+
+.nav-item.active {
+  background-color: #000; /* Black background for active link */
+  color: #fff; /* White text color */
+  border-radius: 2rem; /* Oval shape for active */
+}
+
+/* Footer Styling */
+.footer {
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  padding: 3rem 5rem;
+  text-align: center;
+}
+
+.footer-brand .brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+.social-link img {
+  width: 30px;
+  height: 30px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.social-link img:hover {
+  filter: grayscale(0%);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 20px;
+}
+
+.link-group h4 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.link-group a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
+}
+
+.link-group a:hover {
+  color: #000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header,
   .footer {
-    background: #fff;
-    border-top: 1px solid #eee;
-    padding: 4rem 5rem;
+    padding: 1rem 2rem;
   }
-  
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    max-width: 1400px;
-    margin: 0 auto;
+
+  .days-container {
+    flex-direction: column;
   }
-  
-  .footer-brand {
-    margin-right: 4rem;
-  }
-  
-  .brand {
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin-bottom: 2rem;
-  }
-  
-  .social-links {
-    display: flex;
+
+  .footer-links {
+    flex-direction: column;
     gap: 1rem;
   }
-  
-  .social-link {
-    width: 40px;
-    height: 40px;
-    background: #f5f5f5;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .day-box {
+    width: 100%;
   }
-  
-  .footer-links {
-    display: flex;
-    gap: 4rem;
+
+  .nav {
+    flex-direction: column;
+    gap: 1rem;
   }
-  
-  .link-group h4 {
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-  }
-  
-  .link-group a {
-    display: block;
-    color: #666;
-    text-decoration: none;
-    margin-bottom: 1rem;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 1200px) {
-    .recipe-card {
-      grid-template-columns: 1fr;
-    }
-  
-    .recipe-image {
-      order: -1;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .header,
-    .main-content,
-    .footer {
-      padding: 1.5rem;
-    }
-  
-    .page-title {
-      font-size: 2rem;
-    }
-  
-    .recipe-title {
-      font-size: 2rem;
-    }
-  
-    .footer-content {
-      flex-direction: column;
-      gap: 2rem;
-    }
-  
-    .footer-links {
-      flex-direction: column;
-      gap: 2rem;
-    }
-  }
+}
