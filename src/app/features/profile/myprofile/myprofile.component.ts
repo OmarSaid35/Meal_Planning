@@ -96,7 +96,4 @@ export class MyprofileComponent implements OnInit {
     return localStorage.getItem('userId') || '';
   }
 
-  navigateToCommunity() {
-    this.router.navigate(['/posts/post-recipe']);
-  }
 }

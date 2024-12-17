@@ -28,7 +28,7 @@ app.use(bodyParser.json()); // Parse JSON body
 
 // Multer Configuration for File Uploads
 const upload2 = multer({
-  dest: 'uploads/', 
+  dest: 'uploads/',
 })// Temporary storage for files
 //const upload = multer({ storage: multer.memoryStorage() });
 // Middleware
@@ -90,7 +90,7 @@ app.post('/register', async (req, res) => {
       profilePic: "https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp",
       followers: [], // List of user IDs who follow this user
       following: [],
-      saved_posts :[]// List of user IDs this user follows
+      saved_posts: []// List of user IDs this user follows
     });
 
     res.status(201).send({ message: 'User registered successfully!' });
@@ -188,7 +188,7 @@ app.post('/post-recipe', async (req, res) => {
 });
 
 
-app.post('/upload-image', upload2.single('image'), async (req, res) => {
+app.get('/recipes', async (req, res) => {
   try {
     const snapshot = await db.collection('Posts').get();
 
@@ -214,8 +214,7 @@ app.post('/upload-image', upload2.single('image'), async (req, res) => {
     console.error('Error fetching recipes:', error);
     res.status(500).send({ message: 'Failed to fetch recipes', error: error.message });
   }
-});
-// Save Recipe Route
+});// Save Recipe Route
 app.post('/save-recipe/:userId/:postId', async (req, res) => {
   const { userId, postId } = req.params;
   console.log('User ID:', userId, 'Post ID:', postId); // Debug IDs
@@ -303,6 +302,7 @@ app.get('/bookmarked/:userId', async (req, res) => {
     res.status(500).send({ message: 'Failed to fetch saved posts', error: error.message });
   }
 });
+
 app.post('/post-recipe', async (req, res) => {
   const { title, instructions, ingredients, imageUrl, authorId } = req.body;
 

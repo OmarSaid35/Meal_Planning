@@ -32,14 +32,15 @@
 
 .nav-item {
     font-size: 1rem;
-    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
 }
 
 .nav-item.active {
     background: #000;
     color: #fff;
-    padding: 0.5rem 1.5rem;
-    border-radius: 0.875rem;
 }
 
 /* Profile Section */
@@ -137,6 +138,7 @@
     background: #fff;
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: #000 solid 3px;
 }
 
 .post-title {

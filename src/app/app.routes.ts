@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { PostRecipeComponent } from './features/posts/post-recipe/post-recipe.component';
 import { RecipesComponent } from './features/posts/recipes/recipes.component';
 import { BookmarkedComponent } from './features/posts/bookmarked/bookmarked.component';
-import { PlanningMealComponent } from './features/planning/planning-meal/planning-meal.component'; // تأكد من استيراد المكون بشكل صحيح
+import { PlanningMealComponent } from './features/planning/planning-meal/planning-meal.component';
 
 export const routes: Routes = [
   {
@@ -40,10 +40,10 @@ export const routes: Routes = [
       import('./features/profile/myprofile/myprofile.component').then(
         (m) => m.MyprofileComponent
       ),
-  }, { path: 'post-recipe', component: PostRecipeComponent },
+  }, 
+  { path: 'post-recipe', component: PostRecipeComponent },
   { path: 'recipes', component: RecipesComponent }, { path: 'bookmarked', component: BookmarkedComponent }, // Default route
   { path: '', redirectTo: '/auth/register', pathMatch: 'full' }, // Default route
-
   { path: '', redirectTo: '/post/post-recipe', pathMatch: 'full' }, // Default route
 ];
 
