@@ -1,0 +1,63 @@
+<div class="container">
+  <header class="header">
+    <div class="logo">MealMe</div>
+    <nav class="nav">
+      <a href="/profile" class="nav-item">My Profile</a>
+      <a href="/discovery" class="nav-item">Discovery</a>
+      <a href="/planning" class="nav-item">Planning</a>
+      <a href="/bookmarked" class="nav-item">Bookmarked</a>
+      <a href="/community" class="nav-item active">Community</a>
+    </nav>
+  </header>
+
+  <!-- Author Profile Section -->
+  <section class="profile" *ngIf="authorData">
+    <div class="profile-image" [style.backgroundImage]="'url(' + authorData.profilePic + ')'"></div>
+    <h1 class="profile-name">{{ authorData.username || 'Loading...' }}</h1>
+
+
+    <!-- Follow Button -->
+    <button *ngIf="!isFollowing" (click)="followUser()" class="follow-btn">Follow</button>
+    <button *ngIf="isFollowing" (click)="unfollowUser()" class="follow-btn following">Following</button>
+
+    <p class="profile-email">{{ authorData.email || 'Loading...' }}</p>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number">{{ authorData.posts?.length || 0 }}</div>
+        <div class="stat-label">Posts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ authorData.stats.followersCount }}</div>
+        <div class="stat-label">Followers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ authorData.stats.followingCount}}</div>
+        <div class="stat-label">Following</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Author's Posts -->
+  <section class="posts" *ngIf="authorData?.posts">
+    <h2 class="section-title">{{ authorData.username }}'s Posts</h2>
+    <div *ngFor="let post of authorData.posts" class="post">
+      <div class="post-content">
+        <h3 class="post-title">{{ post.title }}</h3>
+        <p class="post-date">{{ post.timestamp | date: 'yyyy/MM/dd' }}</p>
+        <div class="post-details">
+          <div class="ingredients">
+            <strong>Ingredients</strong>: {{ post.ingredients.join(', ') }}
+          </div>
+          <div class="instructions">
+            <strong>Instructions</strong>: {{ post.instructions }}
+          </div>
+        </div>
+      </div>
+      <div class="post-image">
+        <img [src]="post.imageUrl" [alt]="post.title" />
+      </div>
+    </div>
+  </section>
+</div>

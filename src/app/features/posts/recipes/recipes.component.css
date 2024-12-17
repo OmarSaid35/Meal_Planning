@@ -130,10 +130,16 @@
     margin-top: 2rem;
   }
   
-  .author {
+  .author a{
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 20px;
+  }
+  .author a {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.2s;
   }
   
   .author-avatar {

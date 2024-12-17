@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MyprofileComponent } from './myprofile/myprofile.component'; // Adjust the path if necessary
+import { RouterModule } from '@angular/router'; // Import this!
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { MyprofileComponent } from './myprofile/myprofile.component'; // Adjust 
     CommonModule,
     ProfileRoutingModule,
     HttpClientModule, // Already added
+    RouterModule
   ],
 })
 export class ProfileModule {}

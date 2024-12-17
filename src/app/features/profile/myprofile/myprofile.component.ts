@@ -25,7 +25,6 @@ export class MyprofileComponent implements OnInit {
   followingCount: number = 0;
   userId: string = this.getLoggedInUserId();
   userPosts: any[] = [];
-
   constructor(private http: HttpClient,private router: Router) { }
 
   ngOnInit(): void {
