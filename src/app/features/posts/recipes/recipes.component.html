@@ -1,0 +1,113 @@
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">MealMe</div>
+      <nav class="nav">
+        <a href="/profile" class="nav-item">My Profile</a>
+        <a href="/discover" class="nav-item">Discovery</a>
+        <a href="/planning" class="nav-item">Planning</a>
+        <a href="/bookmarked" class="nav-item">Bookmarked</a>
+        <a href="/community" class="nav-item active">Community</a>
+      </nav>
+    </header>
+  
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1 class="page-title">Community</h1>
+      <p class="page-description">
+        Welcome to the Recipe & Meal Planning Community! Discover, share, and enjoy delicious recipes
+        while connecting with fellow food enthusiasts. Let's cook up something amazing together!
+      </p>
+  
+      <div *ngIf="recipes.length === 0" class="no-recipes">
+        <p>No recipes available. Be the first to post a recipe!</p>
+      </div>
+  
+      <div class="recipe-grid">
+        <article *ngFor="let recipe of recipes" class="recipe-card">
+          <div class="recipe-content">
+            <h2 class="recipe-title">{{ recipe.title }}</h2>
+            
+            <div class="recipe-details">
+              <div class="ingredients">
+                <h4>Ingredients</h4>
+                <p>{{ recipe.ingredients.join(', ') }}</p>
+              </div>
+  
+              <div class="instructions">
+                <h4>Instructions</h4>
+                <p>{{ recipe.instructions }}</p>
+              </div>
+            </div>
+  
+            <div class="recipe-footer">
+              <div class="author">
+                <img [src]="recipe.author.profilePic" alt="" class="author-avatar">
+                <span class="author-name">{{ recipe.author.username|| 'Anonymous' }}</span>
+              </div>
+  
+              <div class="actions">
+                <button class="action-button">
+                  <span>Comments</span>
+                </button>
+                <button class="action-button" (click)="saveRecipe(recipe.postId)">
+                  <span>Save</span>
+                </button>
+                <button class="action-button">
+                  <span>Like</span>
+                </button>
+              </div>
+            </div>
+          </div>
+  
+          <div class="recipe-image">
+            <img *ngIf="recipe.imageUrl" [src]="recipe.imageUrl" [alt]="recipe.title">
+          </div>
+        </article>
+      </div>
+  
+      <button class="load-more">Load More</button>
+    </main>
+  
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="brand">MealMe</div>
+          <div class="social-links">
+            <a href="#" class="social-link">
+              <img src="https://img.icons8.com/?size=48&id=118497&format=png" alt="Facebook">
+            </a>
+            <a href="#" class="social-link">
+              <img src="https://img.icons8.com/?size=48&id=114445&format=png" alt="LinkedIn">
+            </a>
+            <a href="#" class="social-link">
+              <img src="https://img.icons8.com/?size=48&id=19318&format=png" alt="YouTube">
+            </a>
+            <a href="#" class="social-link">
+              <img src="https://img.icons8.com/?size=48&id=Xy10Jcu1L2Su&format=png" alt="Instagram">
+            </a>
+          </div>
+        </div>
+  
+        <div class="footer-links">
+          <div class="link-group">
+            <h4>About Website</h4>
+            <a href="#">Policy & Service</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Founders</a>
+          </div>
+          <div class="link-group">
+            <h4>Policies</h4>
+            <a href="#">Terms Of Service</a>
+            <a href="#">Privacy</a>
+          </div>
+          <div class="link-group">
+            <h4>Extras</h4>
+            <a href="#">Gift Codes</a>
+            <a href="#">Redeem</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>

@@ -1,0 +1,89 @@
+<div class="meal-planner">
+  <header class="header">
+    <div class="logo">MealMe</div>
+    <nav class="nav">
+      <a href="/profile" class="nav-item">My Profile</a>
+      <a href="/discover" class="nav-item">Discovery</a>
+      <a href="/planning" class="nav-item active">Planning</a>
+      <a href="/bookmarked" class="nav-item ">Bookmarked</a>
+      <a href="/recipes" class="nav-item ">Community</a>
+    </nav>
+  </header>
+    <h1>Meal Planner</h1>
+  
+    <div class="days-container">
+      <div *ngFor="let day of days" class="day-box">
+        <h2>{{ day }}</h2>
+  
+        <div class="meal-input">
+          <!-- ليست بوكس لاختيار الوصفة -->
+          <select [(ngModel)]="selectedRecipe[day]">
+            <option *ngFor="let recipe of recipes" [ngValue]="recipe">{{ recipe.name }}</option>
+          </select>
+  
+          <!-- ليست بوكس لاختيار نوع الوجبة -->
+          <select [(ngModel)]="mealTypes[day]">
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="snack">snack</option>
+
+          </select>
+  
+          <!-- زر الإضافة -->
+          <button (click)="addMeal(day)">Add</button>
+        </div>
+  
+        <!-- قائمة الوجبات المضافة -->
+        <ul>
+          <li *ngFor="let meal of selectedMeals[day]">
+            <strong>{{ meal.recipe.name }}</strong> ({{ meal.type }})<br />
+            <em>{{ meal.recipe.description }}</em>
+            <button (click)="removeMeal(day, meal)">Remove</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="brand">MealMe</div>
+            <div class="social-links">
+              <a href="#" class="social-link">
+                <img src="https://img.icons8.com/?size=48&id=118497&format=png" alt="Facebook">
+              </a>
+              <a href="#" class="social-link">
+                <img src="https://img.icons8.com/?size=48&id=114445&format=png" alt="LinkedIn">
+              </a>
+              <a href="#" class="social-link">
+                <img src="https://img.icons8.com/?size=48&id=19318&format=png" alt="YouTube">
+              </a>
+              <a href="#" class="social-link">
+                <img src="https://img.icons8.com/?size=48&id=Xy10Jcu1L2Su&format=png" alt="Instagram">
+              </a>
+            </div>
+          </div>
+    
+          <div class="footer-links">
+            <div class="link-group">
+              <h4>About Website</h4>
+              <a href="#">Policy & Service</a>
+              <a href="#">Contact Us</a>
+              <a href="#">Founders</a>
+            </div>
+            <div class="link-group">
+              <h4>Policies</h4>
+              <a href="#">Terms Of Service</a>
+              <a href="#">Privacy</a>
+            </div>
+            <div class="link-group">
+              <h4>Extras</h4>
+              <a href="#">Gift Codes</a>
+              <a href="#">Redeem</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+  </div>
+  

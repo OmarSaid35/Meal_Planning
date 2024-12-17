@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, width=device-width">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+</head>
+
+<body>
+
+	<div class="my-profile">
+		<div class="my-profile-child">
+		</div>
+		<a href="/profile" class="my-profile1">My Profile</a>
+		<a href="/discover" class="discovery">Discovery</a>
+        <a href="/planning" class="planning">Planning</a>
+		<a href="/bookmarked" class="bookmarked" id="bookmarkedText" >Bookmarked</a>
+		<a href="/recipes" class="community">Community</a>
+		<div class="mealme">MealMe</div>
+		<div class="navigation-footer">
+			<div class="items">
+				<div class="about-website">About Website</div>
+				<div class="policy-service">Policy & Service</div>
+				<div class="policy-service">Contact Us</div>
+				<div class="policy-service">Founders</div>
+			</div>
+			<div class="items1">
+				<div class="about-website">Polices</div>
+				<div class="policy-service">Terms Of Service</div>
+				<div class="policy-service">Privacy</div>
+			</div>
+			<div class="items2">
+				<div class="about-website">Extras</div>
+				<div class="policy-service">Gift Codes</div>
+				<div class="policy-service">Redeem</div>
+			</div>
+			<div class="mealme1">MealMe</div>
+			<div class="social-icons">
+				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
+
+				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
+
+				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
+
+				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
+
+			</div>
+			<div class="divider">
+			</div>
+		</div>
+		<b class="omar-said">{{username}}</b>
+		<div class="ellipse-div" [style.background-image]="backgroundImage">
+			<div class="edit-icon" (click)="triggerFileInput()">
+				<img class="bitcoin-iconsedit-filled" alt="" src="assets/edit.svg">
+			</div>
+		</div>
+
+		<!-- Hidden file input for selecting an image -->
+		<input type="file" #fileInput accept="image/*" (change)="onFileSelected($event)" style="display:none">
+
+		<div class="omar123gmailcom">{{email}}</div>
+		<div class="frame-parent">
+			<div class="frame-wrapper">
+				<div class="paragraph-parent">
+					<b class="paragraph">18</b>
+					<div class="paragraph1">Likes</div>
+				</div>
+			</div>
+			<div class="frame-wrapper">
+				<div class="paragraph-parent">
+					<b class="paragraph">{{followersCount}}</b>
+					<div class="paragraph3">Followers</div>
+				</div>
+			</div>
+			<div class="frame-wrapper">
+				<div class="paragraph-parent">
+					<b class="paragraph">{{followingCount}}</b>
+					<div class="paragraph3">Following</div>
+				</div>
+			</div>
+		</div>
+		<div class="article-title">
+			<b class="my-posts">My Posts</b>
+		</div>
+		<div class="button3" id="buttonContainer1">
+			<img class="icbaseline-delete-icon" alt="" src="assets/ic_outline-post-add.svg">
+
+			<div class="load-more">Add Post</div>
+		</div>
+	</div>
+
+
+
+
+	<script>
+		var bookmarkedText = document.getElementById("bookmarkedText");
+		if (bookmarkedText) {
+			bookmarkedText.addEventListener("click", function (e) {
+				// Add your code here
+			});
+		}
+
+		var buttonContainer = document.getElementById("buttonContainer");
+		if (buttonContainer) {
+			buttonContainer.addEventListener("click", function (e) {
+				// Add your code here
+			});
+		}
+
+		var buttonContainer1 = document.getElementById("buttonContainer1");
+		if (buttonContainer1) {
+			buttonContainer1.addEventListener("click", function (e) {
+				// Add your code here
+			});
+		}</script>
+</body>
+
+</html>
