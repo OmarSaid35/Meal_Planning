@@ -1,120 +1,114 @@
-<!DOCTYPE html>
-<html>
+<div class="container">
+	<!-- Header -->
+	<header class="header">
+		<div class="logo">MealMe</div>
+		<nav class="nav">
+			<a href="/profile" class="nav-item active">My Profile</a>
+			<a href="/discover" class="nav-item">Discovery</a>
+			<a href="/planning" class="nav-item">Planning</a>
+			<a href="/bookmarked" class="nav-item">Bookmarked</a>
+			<a href="/community" class="nav-item">Community</a>
+		</nav>
+	</header>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1, width=device-width">
-	<link rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
-</head>
-
-<body>
-
-	<div class="my-profile">
-		<div class="my-profile-child">
+	<!-- Profile Section -->
+	<section class="profile">
+		<div class="profile-image" [style.backgroundImage]="backgroundImage">
+			<button class="edit-button" (click)="triggerFileInput()">
+				<img src="assets/edit.svg" alt="Edit" />
+			</button>
 		</div>
-		<a href="/profile" class="my-profile1">My Profile</a>
-		<a href="/discover" class="discovery">Discovery</a>
-        <a href="/planning" class="planning">Planning</a>
-		<a href="/bookmarked" class="bookmarked" id="bookmarkedText" >Bookmarked</a>
-		<a href="/recipes" class="community">Community</a>
-		<div class="mealme">MealMe</div>
-		<div class="navigation-footer">
-			<div class="items">
-				<div class="about-website">About Website</div>
-				<div class="policy-service">Policy & Service</div>
-				<div class="policy-service">Contact Us</div>
-				<div class="policy-service">Founders</div>
-			</div>
-			<div class="items1">
-				<div class="about-website">Polices</div>
-				<div class="policy-service">Terms Of Service</div>
-				<div class="policy-service">Privacy</div>
-			</div>
-			<div class="items2">
-				<div class="about-website">Extras</div>
-				<div class="policy-service">Gift Codes</div>
-				<div class="policy-service">Redeem</div>
-			</div>
-			<div class="mealme1">MealMe</div>
-			<div class="social-icons">
-				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
+		<input type="file" #fileInput accept="image/*" (change)="onFileSelected($event)" hidden>
 
-				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
+		<h1 class="profile-name">{{username}}</h1>
+		<p class="profile-email">{{email}}</p>
 
-				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
-
-				<img class="buttons-icon" alt="" src="Buttons / Icon.png">
-
+		<!-- Stats -->
+		<div class="stats">
+			<div class="stat-card">
+				<div class="stat-number">18</div>
+				<div class="stat-label">Likes</div>
 			</div>
-			<div class="divider">
+			<div class="stat-card">
+				<div class="stat-number">{{followersCount}}</div>
+				<div class="stat-label">Followers</div>
+			</div>
+			<div class="stat-card">
+				<div class="stat-number">{{followingCount}}</div>
+				<div class="stat-label">Following</div>
 			</div>
 		</div>
-		<b class="omar-said">{{username}}</b>
-		<div class="ellipse-div" [style.background-image]="backgroundImage">
-			<div class="edit-icon" (click)="triggerFileInput()">
-				<img class="bitcoin-iconsedit-filled" alt="" src="assets/edit.svg">
+	</section>
+
+	<!-- Posts Section -->
+	<section class="posts">
+		<h2 class="section-title">My Posts</h2>
+
+		<div *ngFor="let post of userPosts" class="post">
+			<div class="post-content">
+				<h3 class="post-title">{{post.title}}</h3>
+				<p class="post-date">{{post.timestamp | date:'yyyy/MM/dd'}}</p>
+
+				<div class="post-details">
+					<div class="ingredients">
+						<strong>Ingredients</strong>: {{post.ingredients.join(', ')}}
+					</div>
+					<div class="instructions">
+						<strong>Instructions</strong>: {{post.instructions}}
+					</div>
+				</div>
+
+				<button class="like-button">
+					<img src="assets/Vector.svg" alt="Like" />
+					<span>{{post.likes.length}} Likes</span>
+				</button>
+			</div>
+
+			<div class="post-image">
+				<img [src]="post.imageUrl" [alt]="post.title">
 			</div>
 		</div>
+	</section>
 
-		<!-- Hidden file input for selecting an image -->
-		<input type="file" #fileInput accept="image/*" (change)="onFileSelected($event)" style="display:none">
-
-		<div class="omar123gmailcom">{{email}}</div>
-		<div class="frame-parent">
-			<div class="frame-wrapper">
-				<div class="paragraph-parent">
-					<b class="paragraph">18</b>
-					<div class="paragraph1">Likes</div>
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="footer-content">
+			<div class="footer-brand">
+				<div class="footer-logo">MealMe</div>
+				<div class="social-links">
+					<a href="#" class="social-link">
+						<img src="assets/facebook.svg" alt="Facebook">
+					</a>
+					<a href="#" class="social-link">
+						<img src="assets/linkedin.svg" alt="Twitter">
+					</a>
+					<a href="#" class="social-link">
+						<img src="assets/insta.svg" alt="Instagram">
+					</a>
+					<a href="#" class="social-link">
+						<img src="assets/youtube.svg" alt="YouTube">
+					</a>
 				</div>
 			</div>
-			<div class="frame-wrapper">
-				<div class="paragraph-parent">
-					<b class="paragraph">{{followersCount}}</b>
-					<div class="paragraph3">Followers</div>
+
+			<div class="footer-links">
+				<div class="footer-column">
+					<h4>About Website</h4>
+					<a href="#">Policy & Service</a>
+					<a href="#">Contact Us</a>
+					<a href="#">Founders</a>
+				</div>
+				<div class="footer-column">
+					<h4>Polices</h4>
+					<a href="#">Terms Of Service</a>
+					<a href="#">Privacy</a>
+				</div>
+				<div class="footer-column">
+					<h4>Extras</h4>
+					<a href="#">Gift Codes</a>
+					<a href="#">Redeem</a>
 				</div>
 			</div>
-			<div class="frame-wrapper">
-				<div class="paragraph-parent">
-					<b class="paragraph">{{followingCount}}</b>
-					<div class="paragraph3">Following</div>
-				</div>
-			</div>
 		</div>
-		<div class="article-title">
-			<b class="my-posts">My Posts</b>
-		</div>
-		<div class="button3" id="buttonContainer1">
-			<img class="icbaseline-delete-icon" alt="" src="assets/ic_outline-post-add.svg">
-
-			<div class="load-more">Add Post</div>
-		</div>
-	</div>
-
-
-
-
-	<script>
-		var bookmarkedText = document.getElementById("bookmarkedText");
-		if (bookmarkedText) {
-			bookmarkedText.addEventListener("click", function (e) {
-				// Add your code here
-			});
-		}
-
-		var buttonContainer = document.getElementById("buttonContainer");
-		if (buttonContainer) {
-			buttonContainer.addEventListener("click", function (e) {
-				// Add your code here
-			});
-		}
-
-		var buttonContainer1 = document.getElementById("buttonContainer1");
-		if (buttonContainer1) {
-			buttonContainer1.addEventListener("click", function (e) {
-				// Add your code here
-			});
-		}</script>
-</body>
-
-</html>
+	</footer>
+</div>

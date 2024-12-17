@@ -311,10 +311,91 @@ app.post('/post-recipe', async (req, res) => {
     });
   }
 });
+// Get User Stats
+app.get('/userStats/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userDoc = db.collection('users').doc(userId);
+    const userSnapshot = await userDoc.get();
+
+    if (!userSnapshot.exists) {
+      return res.status(404).send({ message: 'User not found!' });
+    }
+    const userData = userSnapshot.data();
+
+    res.status(200).send({
+      followersCount: userData.followers.length,
+      followingCount: userData.following.length,
+    });
+  } catch (error) {
+    console.error('Error fetching user stats:', error);
+    res.status(500).send({ message: 'Failed to retrieve user stats', error: error.message });
+  }
+});
+
+// Get User's Posts
+app.get('/userPosts/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const postsSnapshot = await db
+      .collection('Posts')
+      .where('authorId', '==', userId)
+      .orderBy('timestamp', 'desc') // Sort posts by timestamp (optional)
+      .get();
+
+    if (postsSnapshot.empty) {
+      return res.status(404).send({ message: 'No posts found for this user.' });
+    }
+
+    const posts = postsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    res.status(200).send(posts);
+  } catch (error) {
+    console.error('Error fetching user posts:', error);
+    res.status(500).send({ message: 'Failed to fetch posts', error: error.message });
+  }
+});
+
+app.post('/uploadProfilePic/:userId', upload.single('profilePic'), async (req, res) => {
+  const { userId } = req.params;
+  const file = req.file;
+
+  if (!file) {
+    return res.status(400).send({ message: 'No file uploaded!' });
+  }
+
+  const filePath = path.join(__dirname, file.path);
+  const destFileName = `profilePics/${userId}_${Date.now()}_${file.originalname}`;
+
+  try {
+    // Upload file to Firebase Storage
+    await bucket.upload(filePath, {
+      destination: destFileName,
+      metadata: {
+        contentType: file.mimetype,
+      },
+    });
+
+    // Get public URL for the uploaded file
+    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(destFileName)}?alt=media`;
+
+    // Update user profilePic URL in Firestore
+    await db.collection('users').doc(userId).update({ profilePic: fileUrl });
+
+    // Delete temporary local file
+    fs.unlinkSync(filePath);
+
+    res.status(200).send({ message: 'Profile picture updated successfully!', profilePic: fileUrl });
+  } catch (error) {
+    console.error('Error uploading profile picture:', error);
+    res.status(500).send({ message: 'Failed to upload profile picture', error: error.message });
+  }
+});
 
 
 // ================= START SERVER ================= //
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
