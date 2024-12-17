@@ -1,0 +1,148 @@
+<!-- Top Navigation -->
+<nav class="navbar">
+  <div class="logo">MealMe</div>
+  <ul class="nav-links">
+    <li><a href="#">My Profile</a></li>
+    <li><a href="#" class="active">Discovery</a></li>
+    <li><a href="#">Planning</a></li>
+    <li><a href="#">Bookmarked</a></li>
+    <li><a href="#">Community</a></li>
+  </ul>
+</nav>
+
+<!-- Discovery Section -->
+<section class="discovery">
+  <h1 class="title">Discovery</h1>
+  <p>
+    Discover delicious recipes and effortlessly organize your meals. Explore our
+    curated selections to inspire your cooking and simplify your meal planning journey.
+  </p>
+
+  <!-- Search Bar and Cuisine Filter -->
+  <div class="search-container">
+    <!-- Search Input -->
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search for a recipe..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearch()"
+    />
+
+    <!-- Filter Dropdown as an Icon -->
+    <div class="filter-button">
+      <span class="filter-icon">
+        <i class="fas fa-filter"></i>
+      </span>
+      <select
+        class="filter-dropdown"
+        [(ngModel)]="selectedCuisine"
+        (change)="onSelectCuisine(selectedCuisine)"
+      >
+        <option value="">All Cuisines</option>
+        <option *ngFor="let cuisine of cuisines" [value]="cuisine">
+          {{ cuisine }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Reset Cuisine Button -->
+    <button class="reset-button" (click)="resetCuisine()">Reset Filter</button>
+  </div>
+
+  <!-- Recipe Cards Container -->
+  <div class="recipe-container">
+    <div class="recipe-card" *ngFor="let recipe of filteredRecipes">
+      <h3>{{ recipe.name }}</h3>
+      <p><strong>Cuisine:</strong> {{ recipe.cuisine }}</p>
+      <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+      <p><strong>Cooking Steps:</strong> {{ recipe.steps }}</p>
+      <p><strong>Nutritional Facts:</strong> {{ recipe.nutrition }}</p>
+      <img [src]="recipe.image" [alt]="recipe.name" class="recipe-image" />
+      <!-- Buttons -->
+      <div class="button-container">
+        <button class="action-button" (click)="onRate(recipe)">Rate</button>
+        <button class="action-button" (click)="onViewReviews(recipe)">Reviews</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" *ngIf="showReviewForm">
+  <div class="modal-content">
+    <span class="close-button" (click)="closeModal()">&times;</span>
+    <h4>Rate {{ selectedRecipe?.name }}</h4>
+    <label for="starRating">Star Rating:</label>
+    <select id="starRating" [(ngModel)]="rating">
+      <option [value]="1">1 ★</option>
+      <option [value]="2">2 ★★</option>
+      <option [value]="3">3 ★★★</option>
+      <option [value]="4">4 ★★★★</option>
+      <option [value]="5">5 ★★★★★</option>
+    </select>
+
+    <label for="opinion">Your Opinion:</label>
+    <textarea id="opinion" [(ngModel)]="opinion" rows="4" placeholder="Write your opinion here..."></textarea>
+
+    <button class="action-button" (click)="submitReview()">Submit Review</button>
+  </div>
+</div>
+
+<!-- Reviews Modal -->
+<div *ngIf="showReviews" class="modal">
+  <div class="modal-content">
+    <span (click)="closeModal()" class="close">&times;</span>
+    <h3>Reviews for {{ selectedRecipe.name }}</h3>
+
+    <!-- If reviews exist, display them -->
+    <div *ngIf="reviews.length > 0; else noReviews">
+      <div *ngFor="let review of reviews" class="review">
+        <p><strong>{{ review.userName }}:</strong> {{ review.opinion }}</p>
+        <p>⭐ Rating: {{ review.rating }} </p>
+      </div>
+    </div>
+
+    <!-- If no reviews exist -->
+    <ng-template #noReviews>
+      <p>No reviews yet.</p>
+    </ng-template>
+  </div>
+</div>
+<!-- Reviews Section -->
+<div *ngIf="showReviews" class="reviews-section">
+  <h4>Reviews for {{ selectedRecipe?.name }}</h4>
+  <div *ngIf="reviews.length === 0">No reviews yet.</div>
+  <div *ngFor="let review of reviews" class="review-card">
+    <p><strong>{{ review.userName }} Reviewed:</strong> {{ review.rating }} ★</p>
+    <p><em>{{ review.opinion }}</em></p>
+    <p class="review-date">{{ review.createdAt }}</p>
+  </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>About MealMe</h4>
+      <ul>
+        <li><a href="#">Policy & Service</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Founders</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Policies</h4>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Extras</h4>
+      <ul>
+        <li><a href="#">Gift Codes</a></li>
+        <li><a href="#">Redeem</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
