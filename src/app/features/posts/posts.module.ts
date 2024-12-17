@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { PostsRoutingModule } from './posts-routing.module';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
-    PostsRoutingModule // Import the routing module
+    PostsRoutingModule,
+    RouterModule,
+    FormsModule
   ],
 })
 export class PostsModule {}

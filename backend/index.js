@@ -390,6 +390,143 @@ app.post('/uploadProfilePic/:userId', upload.single('profilePic'), async (req, r
 
 
 // ================= START SERVER ================= //
+
+// Fetch Author Profile Data (User Info + Stats + Posts)
+app.get('/author-profile/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Fetch user info
+    const userDoc = await db.collection('users').doc(userId).get();
+    if (!userDoc.exists) {
+      return res.status(404).send({ message: 'User not found!' });
+    }
+
+    const userData = userDoc.data();
+
+    // Fetch user's posts
+    const postsSnapshot = await db
+      .collection('Posts')
+      .where('authorId', '==', userId)
+      .orderBy('timestamp', 'desc')
+      .get();
+
+    const posts = postsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    // Prepare stats
+    const stats = {
+      followersCount: userData.followers.length,
+      followingCount: userData.following.length,
+      postsCount: posts.length,
+    };
+
+    // Combine everything
+    const profileData = {
+      userId,
+      username: userData.username,
+      email: userData.email,
+      profilePic: userData.profilePic,
+      followers: userData.followers,
+      following: userData.following,
+      stats,
+      posts,
+    };
+
+    res.status(200).send(profileData);
+  } catch (error) {
+    console.error('Error fetching author profile:', error);
+    res.status(500).send({ message: 'Failed to fetch author profile', error: error.message });
+  }
+});
+
+// Follow User Route
+app.post('/follow/:userId/:followUserId', async (req, res) => {
+  const { userId, followUserId } = req.params;
+
+  try {
+    // Get current user data
+    const userRef = db.collection('users').doc(userId);
+    const userSnapshot = await userRef.get();
+    if (!userSnapshot.exists) {
+      return res.status(404).send({ message: 'User not found!' });
+    }
+    const userData = userSnapshot.data();
+
+    // Get followed user data
+    const followUserRef = db.collection('users').doc(followUserId);
+    const followUserSnapshot = await followUserRef.get();
+    if (!followUserSnapshot.exists) {
+      return res.status(404).send({ message: 'Followed user not found!' });
+    }
+
+    const followUserData = followUserSnapshot.data();
+
+    // Check if already following
+    if (userData.following.includes(followUserId)) {
+      return res.status(400).send({ message: 'Already following this user.' });
+    }
+
+    // Add to following and followers
+    await userRef.update({
+      following: [...userData.following, followUserId],
+    });
+    await followUserRef.update({
+      followers: [...followUserData.followers, userId],
+    });
+
+    res.status(200).send({ message: 'User followed successfully!' });
+  } catch (error) {
+    console.error('Error following user:', error);
+    res.status(500).send({ message: 'Failed to follow user', error: error.message });
+  }
+});
+
+// Unfollow User Route
+app.post('/unfollow/:userId/:followUserId', async (req, res) => {
+  const { userId, followUserId } = req.params;
+
+  try {
+    // Get current user data
+    const userRef = db.collection('users').doc(userId);
+    const userSnapshot = await userRef.get();
+    if (!userSnapshot.exists) {
+      return res.status(404).send({ message: 'User not found!' });
+    }
+    const userData = userSnapshot.data();
+
+    // Get followed user data
+    const followUserRef = db.collection('users').doc(followUserId);
+    const followUserSnapshot = await followUserRef.get();
+    if (!followUserSnapshot.exists) {
+      return res.status(404).send({ message: 'Followed user not found!' });
+    }
+
+    const followUserData = followUserSnapshot.data();
+
+    // Check if not following
+    if (!userData.following.includes(followUserId)) {
+      return res.status(400).send({ message: 'Not following this user.' });
+    }
+
+    // Remove from following and followers
+    await userRef.update({
+      following: userData.following.filter((id) => id !== followUserId),
+    });
+    await followUserRef.update({
+      followers: followUserData.followers.filter((id) => id !== userId),
+    });
+
+    res.status(200).send({ message: 'User unfollowed successfully!' });
+  } catch (error) {
+    console.error('Error unfollowing user:', error);
+    res.status(500).send({ message: 'Failed to unfollow user', error: error.message });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

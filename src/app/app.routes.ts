@@ -8,6 +8,8 @@ import { PostRecipeComponent } from './features/posts/post-recipe/post-recipe.co
 import { RecipesComponent } from './features/posts/recipes/recipes.component';
 import { BookmarkedComponent } from './features/posts/bookmarked/bookmarked.component';
 import { PlanningMealComponent } from './features/planning/planning-meal/planning-meal.component';
+import { AuthorProfileComponent } from './features/profile/author-profile/author-profile.component';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
   // Default route
@@ -54,4 +56,15 @@ export const routes: Routes = [
         (m) => m.MyprofileComponent
       ),
   },
+  { path: 'recipes', component: RecipesComponent },
+  { path: 'post-recipe', component: PostRecipeComponent },
+  { path: 'bookmarked', component: BookmarkedComponent },
+  { path: 'author-profile/:userId', component: AuthorProfileComponent },
+  { path: '', redirectTo: '/auth/register', pathMatch: 'full' },
 ];
+
+
+
+
+
+
