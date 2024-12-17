@@ -14,16 +14,17 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [CommonModule, FormsModule, HttpClientModule, RouterModule],
 })
 export class RegisterComponent {
-  username: string = ''; // Add username
+  username: string = ''; 
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
+  errorMessage: string = '';
 
   constructor(private http: HttpClient, private router: Router) {}
 
   onRegister() {
     if (this.password !== this.confirmPassword) {
-      alert("Passwords don't match.");
+      this.errorMessage = "Passwords don't match.";
       return;
     }
   
@@ -36,12 +37,15 @@ export class RegisterComponent {
     this.http.post('http://localhost:3000/register', userData).subscribe(
       (response: any) => {
         console.log('Success Response:', response);
+        this.errorMessage = ''; 
         alert('Registration successful! Redirecting to login.');
         this.router.navigate(['/auth/login']);
       },
       (error) => {
         console.error('Error Response:', error);
-        alert('Registration failed. Please try again.');
+
+        this.errorMessage =
+          error.error?.error || 'Registration failed. Please try again.';
       }
     );
   }

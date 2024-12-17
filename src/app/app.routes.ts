@@ -20,6 +20,7 @@ export const routes: Routes = [
 
   // Discovery route
   { path: 'discover', component: RecipeDiscoveryComponent },
+  
 
   // Post and Recipe routes
   { path: 'post-recipe', component: PostRecipeComponent },

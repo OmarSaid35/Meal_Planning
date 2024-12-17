@@ -1,12 +1,17 @@
 <div class="register-page">
   <div class="register-container">
-    <!-- Left Section -->
+
     <div class="left-section">
       <div class="register-info">
         <img src="assets/blackstar.png" alt="Black Star" class="star-icon" />
         <h1>Join to a world full of Recipes!</h1>
         <p>Create an account now and join us</p>
       </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
       <form (ngSubmit)="onRegister()" class="register-form">
         <div class="input-container">
           <input
@@ -54,7 +59,7 @@
         Already have an account? <a routerLink="/auth/login">Sign In</a>
       </p>
     </div>
-    <!-- Right Section -->
+
     <div class="right-section">
       <img
         src="assets/man in black trousers running.png"

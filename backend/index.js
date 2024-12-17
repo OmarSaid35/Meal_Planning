@@ -8,7 +8,6 @@ const cloudinary = require('cloudinary').v2;
 const dotenv = require('dotenv');
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin
 const serviceAccount = require('./hci-project-a2e73-firebase-adminsdk-7dd1s-521d64fb89.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -21,7 +20,7 @@ const bucket = admin.storage().bucket();
 const app = express();
 const PORT = 3000;
 
-// Middleware
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
@@ -37,7 +36,7 @@ cloudinary.config({
 
 // ================= ROUTES ================= //
 
-// 1. Registration Route
+
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -48,7 +47,7 @@ app.post('/register', async (req, res) => {
       userId: userRecord.uid,
       username,
       email: userRecord.email,
-      password: password, // Caution: Avoid storing plain passwords
+      password: password, 
       createdAt: new Date().toISOString(),
       profilePic: "https://img-cdn.pixlr.com/image-generator/history/default_profile_pic.webp",
       followers: [],
@@ -63,7 +62,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// 2. Login Route
+
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -102,7 +101,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// 3. Submit a Review
+
 app.post('/add-review', async (req, res) => {
   const { recipeId, userId, userName, rating, opinion } = req.body;
 
@@ -132,7 +131,7 @@ app.post('/add-review', async (req, res) => {
   }
 });
 
-// 4. Get Reviews
+
 app.get('/get-reviews/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
 
@@ -157,7 +156,7 @@ app.get('/recipes', async (req, res) => {
     const snapshot = await db.collection('Posts').get();
 
     if (snapshot.empty) {
-      return res.status(200).send([]); // Return an empty array if no recipes
+      return res.status(200).send([]); 
     }
 
     const recipes = [];
@@ -169,7 +168,7 @@ app.get('/recipes', async (req, res) => {
       recipes.push({
         postId: doc.id,
         ...recipeData,
-        author: userData, // Add user data to the response
+        author: userData, 
       });
     }
 
@@ -182,7 +181,7 @@ app.get('/recipes', async (req, res) => {
 
 app.post('/save-recipe/:userId/:postId', async (req, res) => {
   const { userId, postId } = req.params;
-  console.log('User ID:', userId, 'Post ID:', postId); // Debug IDs
+  console.log('User ID:', userId, 'Post ID:', postId); 
 
   try {
     const userRef = db.collection('users').doc(userId);
@@ -223,7 +222,7 @@ app.post('/unsave-recipe/:userId/:postId', async (req, res) => {
     const userData = userSnapshot.data();
     const savedPosts = userData.saved_posts || [];
 
-    // Remove the postId from saved_posts
+
     const updatedPosts = savedPosts.filter((id) => id !== postId);
     await userRef.update({ saved_posts: updatedPosts });
 
@@ -249,7 +248,7 @@ app.get('/bookmarked/:userId', async (req, res) => {
     const savedPosts = userData.saved_posts || [];
 
     if (savedPosts.length === 0) {
-      return res.status(200).send([]); // No saved posts
+      return res.status(200).send([]); 
     }
 
     const posts = [];
@@ -271,7 +270,7 @@ app.get('/bookmarked/:userId', async (req, res) => {
 app.post('/post-recipe', async (req, res) => {
   const { title, instructions, ingredients, imageUrl, authorId } = req.body;
 
-  // Validate required fields
+
   if (!title || !instructions) {
     return res.status(400).send({
       message: 'Title and instructions are required fields.',
@@ -279,22 +278,20 @@ app.post('/post-recipe', async (req, res) => {
   }
 
   try {
-    // Create a new recipe object without postId initially
+
     const newRecipe = {
       title,
       instructions,
-      ingredients: ingredients || [], // Default to an empty array if not provided
-      imageUrl: imageUrl || '', // Default to an empty string if not provided
-      authorId: authorId || 'anonymous', // Default to 'anonymous' if not provided
+      ingredients: ingredients || [], 
+      imageUrl: imageUrl || '', 
+      authorId: authorId || 'anonymous', 
       timestamp: new Date().toISOString(),
-      likes: [], // Initialize likes as an empty array
-      comments: [], // Initialize comments as an empty array
+      likes: [], 
+      comments: [], 
     };
 
-    // Add the recipe to the 'Posts' collection and get the document reference
     const docRef = await db.collection('Posts').add(newRecipe);
 
-    // Update the document with the generated postId
     await db.collection('Posts').doc(docRef.id).update({
       postId: docRef.id,
     });
@@ -311,7 +308,6 @@ app.post('/post-recipe', async (req, res) => {
     });
   }
 });
-// Get User Stats
 app.get('/userStats/:userId', async (req, res) => {
   const { userId } = req.params;
 
@@ -334,7 +330,6 @@ app.get('/userStats/:userId', async (req, res) => {
   }
 });
 
-// Get User's Posts
 app.get('/userPosts/:userId', async (req, res) => {
   const { userId } = req.params;
 
@@ -342,7 +337,7 @@ app.get('/userPosts/:userId', async (req, res) => {
     const postsSnapshot = await db
       .collection('Posts')
       .where('authorId', '==', userId)
-      .orderBy('timestamp', 'desc') // Sort posts by timestamp (optional)
+      .orderBy('timestamp', 'desc') 
       .get();
 
     if (postsSnapshot.empty) {
@@ -370,7 +365,6 @@ app.post('/uploadProfilePic/:userId', upload.single('profilePic'), async (req, r
   const destFileName = `profilePics/${userId}_${Date.now()}_${file.originalname}`;
 
   try {
-    // Upload file to Firebase Storage
     await bucket.upload(filePath, {
       destination: destFileName,
       metadata: {
@@ -378,13 +372,13 @@ app.post('/uploadProfilePic/:userId', upload.single('profilePic'), async (req, r
       },
     });
 
-    // Get public URL for the uploaded file
+  
     const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(destFileName)}?alt=media`;
 
-    // Update user profilePic URL in Firestore
+
     await db.collection('users').doc(userId).update({ profilePic: fileUrl });
 
-    // Delete temporary local file
+
     fs.unlinkSync(filePath);
 
     res.status(200).send({ message: 'Profile picture updated successfully!', profilePic: fileUrl });

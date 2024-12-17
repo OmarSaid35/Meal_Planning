@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { UserService } from '../../../app/services/user.service'; // Import UserService
+import { UserService } from '../../../app/services/user.service';
 
 @Component({
   selector: 'app-recipe-discovery',
-  standalone: true, // Ensure this is a standalone component
-  imports: [CommonModule, FormsModule, HttpClientModule], // Import necessary modules
+  standalone: true, 
+  imports: [CommonModule, FormsModule, HttpClientModule], 
   templateUrl: './recipe-discovery.component.html',
   styleUrls: ['./recipe-discovery.component.css'],
 })
@@ -105,8 +105,8 @@ export class RecipeDiscoveryComponent {
     },
   ];
 
-  rating: number = 0;   // Holds the selected star rating
-  opinion: string = ''; // Holds the user's opinion text
+  rating: number = 0;
+  opinion: string = '';
   searchQuery: string = '';
   selectedCuisine: string = '';
   cuisines: string[] = [];
@@ -115,24 +115,22 @@ export class RecipeDiscoveryComponent {
   showReviews = false;
   selectedRecipe: any = null;
 
-  currentRecipeId: string = ''; // Add missing property
-  loggedInUser: any = null;     // Holds logged-in user data
-  selectedRating: number = 0;   // User's star rating
-  reviewOpinion: string = '';   // User's review opinion
-  reviews: any[] = [];          // Holds fetched reviews
+  currentRecipeId: string = ''; 
+  loggedInUser: any = null;    
+  selectedRating: number = 0;   
+  reviewOpinion: string = '';   
+  reviews: any[] = [];          
 
   constructor(private http: HttpClient, private userService: UserService) {
     this.cuisines = this.getUniqueCuisines();
   }
 
   ngOnInit() {
-    // Fetch logged-in user from UserService
     this.loggedInUser = this.userService.getUser();
   
     if (!this.loggedInUser) {
       console.error('No user is logged in. Redirecting to login.');
-      alert('Please log in to continue.'); // Notify user
-      // Optionally, redirect to login page
+      alert('Please log in to continue.'); 
       window.location.href = '/login';
     }
   }
@@ -168,21 +166,21 @@ export class RecipeDiscoveryComponent {
   onRate(recipe: any) {
     console.log('Rate button clicked for:', recipe.name);
     this.selectedRecipe = recipe;
-    this.currentRecipeId = recipe.id; // Set current recipe ID
+    this.currentRecipeId = recipe.id;
     this.showReviewForm = true;
     this.showReviews = false;
   }
 
   submitReview() {
   const review = {
-    recipeId: this.selectedRecipe.id, // Correct recipe ID
-    userId: this.userService.getUser()?.id, // Ensure user ID is retrieved correctly
-    userName: this.userService.getUser()?.name, // Ensure user name is retrieved
+    recipeId: this.selectedRecipe.id, 
+    userId: this.userService.getUser()?.id,
+    userName: this.userService.getUser()?.name, 
     rating: this.rating,
     opinion: this.opinion,
   };
 
-  console.log('Submitting review:', review); // Log payload before sending
+  console.log('Submitting review:', review); 
 
   this.http.post('http://localhost:3000/add-review', review).subscribe(
     (response) => {
@@ -208,7 +206,7 @@ onViewReviews(recipe: any) {
     .subscribe(
       (data: any) => {
         console.log('Reviews fetched:', data);
-        this.reviews = data; // Set fetched reviews to the local variable
+        this.reviews = data; 
       },
       (error) => {
         console.error('Error fetching reviews:', error);

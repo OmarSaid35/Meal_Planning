@@ -1,4 +1,3 @@
-/* General Reset */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -22,7 +21,6 @@ body {
   color: #000;
 }
 
-/* Navigation Styling */
 .nav {
   display: flex;
   gap: 2rem;
@@ -34,7 +32,7 @@ body {
   color: #000;
   text-decoration: none;
   padding: 0.5rem 1.5rem;
-  border-radius: 2rem; /* Oval shape */
+  border-radius: 2rem; 
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
@@ -50,7 +48,7 @@ body {
   border-radius: 2rem;
 }
 
-/* Discovery Section */
+
 .discovery {
   text-align: center;
   margin: 40px auto;
@@ -70,7 +68,7 @@ body {
   color: #555;
 }
 
-/* Search and Filter Container */
+
 .search-container {
   display: flex;
   justify-content: center;
@@ -94,7 +92,7 @@ body {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Filter Icon Button */
+
 .filter-button {
   display: flex;
   align-items: center;
@@ -125,7 +123,7 @@ body {
   color: #333;
 }
 
-/* Reset Button */
+
 .reset-button {
   padding: 12px 15px;
   font-size: 1em;
@@ -142,7 +140,7 @@ body {
   transform: scale(1.05);
 }
 
-/* Recipe Cards */
+
 .recipe-container {
   display: flex;
   flex-wrap: wrap;
@@ -186,7 +184,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* Action Buttons */
+
 .button-container {
   display: flex;
   justify-content: space-around;
@@ -209,7 +207,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Footer Section */
 .footer {
   background-color: #fff;
   border-top: 1px solid #ddd;
@@ -277,10 +274,9 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Darker background */
+  background-color: rgba(0, 0, 0, 0.7); 
 }
 
-/* Modal Content */
 .modal-content {
   background-color: #ffffff;
   padding: 20px;
@@ -292,7 +288,7 @@ body {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Modal Header */
+
 .modal-content h4 {
   font-size: 1.5rem;
   font-weight: bold;
@@ -301,7 +297,7 @@ body {
   color: #333;
 }
 
-/* Close Button */
+
 .close-button {
   position: absolute;
   top: 10px;
@@ -316,7 +312,7 @@ body {
   color: #ff4d4d;
 }
 
-/* Form Elements */
+
 .modal-content label {
   font-weight: bold;
   display: block;
@@ -351,7 +347,6 @@ body {
 }
 
 
-/* Fade-in Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
