@@ -25,14 +25,20 @@
       name="ingredients"
     />
 
-    <!-- Image Upload -->
     <label for="image">Upload Image:</label>
     <input type="file" id="image" (change)="onImageSelected($event)" />
-    <div *ngIf="imageUrl">Image uploaded: <a [href]="imageUrl" target="_blank">{{ imageUrl }}</a></div>
-
+    <div *ngIf="imageUrl">
+      <p>Image uploaded successfully:</p>
+      <a [href]="imageUrl" target="_blank">{{ imageUrl }}</a>
+      <img [src]="imageUrl" alt="Uploaded Image" width="200" />
+    </div>
     <!-- Submit Button -->
     <button type="submit" [disabled]="isLoading">
       {{ isLoading ? 'Posting...' : 'Post Recipe' }}
+    </button>
+    <!-- Cancel Button -->
+    <button type="submit" class="Cancel" routerLink="/recipes">
+      Cancel
     </button>
   </form>
 </div>
