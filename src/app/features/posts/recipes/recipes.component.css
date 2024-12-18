@@ -288,3 +288,23 @@
       gap: 2rem;
     }
   }
+
+
+  .comments {
+    margin-top: 1rem;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5rem;
+  }
+  
+  .comment {
+    margin: 0.5rem 0;
+  }
+  
+  .comment-user {
+    font-weight: bold;
+  }
+  
+  .comment-text {
+    margin-left: 0.5rem;
+  }
+  

@@ -208,6 +208,86 @@ app.post('/save-recipe/:userId/:postId', async (req, res) => {
   }
 });
 
+
+app.post('/like-recipe/:userId/:postId', async (req, res) => {
+  const { userId, postId } = req.params;
+
+  try {
+    const postRef = db.collection('Posts').doc(postId);
+    const postSnapshot = await postRef.get();
+
+    if (!postSnapshot.exists) {
+      return res.status(404).send({ message: 'Recipe not found!' });
+    }
+
+    const postData = postSnapshot.data();
+    const likedBy = postData.likedBy || [];
+    const likes = postData.likes || 0;
+
+    if (likedBy.includes(userId)) {
+      return res.status(400).send({ message: 'You already liked this recipe!' });
+    }
+
+    // Add the user ID to the likedBy array and increment the likes count
+    likedBy.push(userId);
+    const updatedLikes = likes + 1;
+
+    await postRef.update({ likedBy, likes: updatedLikes });
+
+    res.status(200).send({ message: 'Recipe liked successfully!', updatedLikes });
+  } catch (error) {
+    console.error('Error liking recipe:', error);
+    res.status(500).send({ message: 'Failed to like recipe', error: error.message });
+  }
+});
+
+
+
+app.post('/add-comment/:postId', async (req, res) => {
+  const { postId } = req.params;
+  const { userId, comment , username } = req.body;
+
+  try {
+    const postRef = db.collection('Posts').doc(postId);
+    const postSnapshot = await postRef.get();
+
+    if (!postSnapshot.exists) {
+      return res.status(404).send({ message: 'Recipe not found!' });
+    }
+
+    const postData = postSnapshot.data();
+    const comments = postData.comments || [];
+
+    // Add new comment
+    comments.push({ userId, comment, timestamp: new Date().toISOString() , username});
+
+    // Update the recipe document
+    await postRef.update({ comments });
+
+    res.status(200).send({ message: 'Comment added successfully!' });
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).send({ message: 'Failed to add comment', error: error.message });
+  }
+});
+
+
+app.get('/get-comments', async (req, res) => {
+  try {
+    const recipesSnapshot = await db.collection('Posts').get();
+    const recipes = recipesSnapshot.docs.map((doc) => ({
+      postId: doc.id,
+      ...doc.data(),
+    }));
+
+    res.status(200).send(recipes);
+  } catch (error) {
+    console.error('Error fetching recipes:', error);
+    res.status(500).send({ message: 'Failed to fetch recipes', error: error.message });
+  }
+});
+
+
 app.post('/unsave-recipe/:userId/:postId', async (req, res) => {
   const { userId, postId } = req.params;
 

@@ -50,16 +50,26 @@
             </a>
           </div>
 
+          <!-- Comments Section -->
+          <div class="comments">
+            <h4>Comments</h4>
+            <div *ngFor="let comment of recipe.comments" class="comment">
+              <span class="comment-user">{{ comment.username }}:</span>
+              <span class="comment-text">{{ comment.comment }}</span>
+            </div>
+          </div>
+
           <!-- Actions -->
           <div class="actions">
-            <button class="action-button">
-              <span>Comments</span>
+            <input #commentInput type="text" placeholder="Write a comment..." />
+            <button class="action-button" (click)="addComment(recipe.postId, commentInput.value)">
+              <span>Comment</span>
             </button>
             <button class="action-button" (click)="saveRecipe(recipe.postId)">
               <span>Save</span>
             </button>
-            <button class="action-button">
-              <span>Like</span>
+            <button class="action-button" (click)="likeRecipe(recipe.postId)">
+              <span>Like ({{ recipe.likes || 0 }})</span>
             </button>
           </div>
         </div>
