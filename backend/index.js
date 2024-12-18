@@ -271,6 +271,78 @@ app.post('/add-comment/:postId', async (req, res) => {
   }
 });
 
+  // Save Meal Plan
+app.post('/save-meal-plan/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const { selectedMeals } = req.body; // The meal plan data
+
+  try {
+    // Reference to the user's document in Firestore
+    const userRef = db.collection('MealPlans').doc(userId);
+
+    // Save or update the meal plan for the user
+    await userRef.set({ selectedMeals }, { merge: true });
+
+    res.status(200).send({ message: 'Meal plan saved successfully!' });
+  } catch (error) {
+    console.error('Error saving meal plan:', error);
+    res.status(500).send({ message: 'Failed to save meal plan', error: error.message });
+  }
+});
+
+// Unsave Meal Plan (Remove a meal)
+app.post('/unsave-meal/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const { day, mealToRemove } = req.body; // Day and meal to remove
+
+  try {
+    const userRef = db.collection('MealPlans').doc(userId);
+    const userSnapshot = await userRef.get();
+    
+    if (!userSnapshot.exists) {
+      return res.status(404).send({ message: 'Meal plan not found!' });
+    }
+
+    const userData = userSnapshot.data();
+    const selectedMeals = userData.selectedMeals || {};
+    
+    /*if (!selectedMeals[day]) {
+      return res.status(400).send({ message: 'No meals found for this day.' });
+    }*/
+
+    const updatedMeals = selectedMeals[day].filter(meal => meal.recipe.name !== mealToRemove.recipe.name);
+
+    selectedMeals[day] = updatedMeals;
+
+    // Update the meal plan with the removed meal
+    await userRef.update({ selectedMeals });
+
+    res.status(200).send({ message: 'Meal removed successfully!' });
+  } catch (error) {
+    console.error('Error removing meal:', error);
+    res.status(500).send({ message: 'Failed to remove meal', error: error.message });
+  }
+});
+
+// Retrieve Meal Plan
+app.get('/get-meal-plan/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userRef = db.collection('MealPlans').doc(userId);
+    const userSnapshot = await userRef.get();
+    
+    if (!userSnapshot.exists) {
+      return res.status(404).send({ message: 'Meal plan not found!' });
+    }
+
+    const userData = userSnapshot.data();
+    res.status(200).send(userData);
+  } catch (error) {
+    console.error('Error retrieving meal plan:', error);
+    res.status(500).send({ message: 'Failed to retrieve meal plan', error: error.message });
+  }
+});
 
 app.get('/get-comments', async (req, res) => {
   try {
