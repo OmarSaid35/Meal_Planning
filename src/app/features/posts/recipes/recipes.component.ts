@@ -59,10 +59,12 @@ export class RecipesComponent implements OnInit {
       .post(`http://localhost:3000/like-recipe/${this.userId}/${postId}`, {})
       .subscribe(
         (response: any) => {
-          // Update the local likes count
           const recipe = this.recipes.find((r) => r.postId === postId);
           if (recipe) {
-            recipe.likes = response.updatedLikes; // Updated likes from the server
+            recipe.likes = response.updatedLikes; // Ensure real-time update
+            console.log('Updated likes:', recipe.likes);
+          } else {
+            console.warn('Recipe not found locally:', postId);
           }
           alert(response.message);
         },
@@ -72,6 +74,7 @@ export class RecipesComponent implements OnInit {
         }
       );
   }
+  
 
 
   fetchRecipes() {

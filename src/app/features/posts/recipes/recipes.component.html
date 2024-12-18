@@ -8,6 +8,7 @@
       <a href="/planning" class="nav-item">Planning</a>
       <a href="/bookmarked" class="nav-item">Bookmarked</a>
       <a href="/recipes" class="nav-item active">Community</a>
+      <a href="/post-recipe" class="nav-item active">Post a recipe</a>
     </nav>
   </header>
 
@@ -31,14 +32,15 @@
           <h2 class="recipe-title">{{ recipe.title }}</h2>
 
           <div class="recipe-details">
-            <div class="ingredients">
-              <h4>Ingredients</h4>
-              <p>{{ recipe.ingredients.join(', ') }}</p>
-            </div>
-
             <div class="instructions">
               <h4>Instructions</h4>
               <p>{{ recipe.instructions }}</p>
+            </div>
+
+            
+            <div class="ingredients">
+              <h4>Ingredients</h4>
+              <p>{{ recipe.ingredients.join(', ') }}</p>
             </div>
           </div>
 

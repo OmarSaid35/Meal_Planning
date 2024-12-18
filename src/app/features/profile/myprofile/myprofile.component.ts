@@ -53,17 +53,20 @@ export class MyprofileComponent implements OnInit {
       formData.append('profilePic', file);
 
       const userId = this.getLoggedInUserId();
-      this.http.post('http://localhost:3000/uploadProfilePic/${userId}', formData).subscribe(
+      this.http.post(`http://localhost:3000/uploadProfilePic/${userId}`, formData).subscribe(
         (response: any) => {
           console.log('Profile picture updated successfully', response);
-          // Update localStorage with the new profile picture URL
+          // Update localStorage and component data
           localStorage.setItem('profilePic', response.profilePic);
+          this.profilePic = response.profilePic; // Update in real-time
+          alert('Profile picture updated successfully');
         },
         (error) => {
           console.error('Error updating profile picture', error);
-          alert('Failed to update profile picture');
+          alert('Failed to update profile picture.');
         }
       );
+      
     }
   }
 

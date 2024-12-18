@@ -222,7 +222,7 @@ app.post('/like-recipe/:userId/:postId', async (req, res) => {
 
     const postData = postSnapshot.data();
     const likedBy = postData.likedBy || [];
-    const likes = postData.likes || 0;
+    const likes = Number(postData.likes) || 0; // Cast likes to number
 
     if (likedBy.includes(userId)) {
       return res.status(400).send({ message: 'You already liked this recipe!' });
@@ -234,7 +234,10 @@ app.post('/like-recipe/:userId/:postId', async (req, res) => {
 
     await postRef.update({ likedBy, likes: updatedLikes });
 
-    res.status(200).send({ message: 'Recipe liked successfully!', updatedLikes });
+    res.status(200).send({ 
+      message: 'Recipe liked successfully!', 
+      updatedLikes 
+    });
   } catch (error) {
     console.error('Error liking recipe:', error);
     res.status(500).send({ message: 'Failed to like recipe', error: error.message });
@@ -346,6 +349,27 @@ app.get('/bookmarked/:userId', async (req, res) => {
     res.status(500).send({ message: 'Failed to fetch saved posts', error: error.message });
   }
 });
+app.post('/upload-image', upload.single('image'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ message: 'No image file provided!' });
+  }
+
+  try {
+    // Convert the file buffer to base64 (required for Cloudinary)
+    const imageBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+
+    // Upload image to Cloudinary
+    const result = await cloudinary.uploader.upload(imageBase64, {
+      folder: 'recipe_images', // Optional folder in Cloudinary
+    });
+
+    // Return the secure image URL from Cloudinary
+    res.status(200).send({ imageUrl: result.secure_url });
+  } catch (error) {
+    console.error('Error uploading to Cloudinary:', error);
+    res.status(500).send({ message: 'Error uploading image', error: error.message });
+  }
+});
 
 app.post('/post-recipe', async (req, res) => {
   const { title, instructions, ingredients, imageUrl, authorId } = req.body;
@@ -441,32 +465,29 @@ app.post('/uploadProfilePic/:userId', upload.single('profilePic'), async (req, r
     return res.status(400).send({ message: 'No file uploaded!' });
   }
 
-  const filePath = path.join(__dirname, file.path);
-  const destFileName = `profilePics/${userId}_${Date.now()}_${file.originalname}`;
-
   try {
-    await bucket.upload(filePath, {
-      destination: destFileName,
-      metadata: {
-        contentType: file.mimetype,
-      },
+    // Convert file to Base64 for Cloudinary
+    const imageBase64 = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+
+    // Upload to Cloudinary
+    const result = await cloudinary.uploader.upload(imageBase64, {
+      folder: 'profile_pics', // Optional folder name
     });
 
-  
-    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(destFileName)}?alt=media`;
-
-
+    // Update Firestore with the Cloudinary URL
+    const fileUrl = result.secure_url;
     await db.collection('users').doc(userId).update({ profilePic: fileUrl });
 
-
-    fs.unlinkSync(filePath);
-
-    res.status(200).send({ message: 'Profile picture updated successfully!', profilePic: fileUrl });
+    res.status(200).send({
+      message: 'Profile picture updated successfully!',
+      profilePic: fileUrl,
+    });
   } catch (error) {
     console.error('Error uploading profile picture:', error);
     res.status(500).send({ message: 'Failed to upload profile picture', error: error.message });
   }
 });
+
 
 
 // ================= START SERVER ================= //
