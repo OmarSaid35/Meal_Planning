@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-planning-meal',
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PlanningMealComponent {
   days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
+  userId: string = 'USER_ID'; // Replace this with the logged-in user's ID
   mealTypes: { [key: string]: string } = {};
   selectedRecipe: { [key: string]: any } = {};
   selectedMeals: { [key: string]: { recipe: any; type: string }[] } = {
@@ -43,32 +44,81 @@ export class PlanningMealComponent {
     { name: 'Pasta Primavera', description: 'A light pasta dish with fresh vegetables and herbs.' },
   ];
 
-  constructor() {
+  constructor(private http: HttpClient) {
+    this.userId = localStorage.getItem('userId') || 'default_user_id'; // Example to fetch user ID
     this.days.forEach((day) => {
       this.mealTypes[day] = 'Breakfast'; // النوع الافتراضي
       this.selectedRecipe[day] = null; // الوصفة الافتراضية
     });
   }
 
-  // إضافة وجبة
+  ngOnInit() {
+    this.retrieveMealPlan();
+  }
+
+  // Add Meal Method
   addMeal(day: string) {
     const recipe = this.selectedRecipe[day];
     const type = this.mealTypes[day];
 
-    // تحقق من صحة القيم المدخلة
+    // Check if both recipe and type are selected
     if (recipe && type) {
-      this.selectedMeals[day].push({ recipe, type }); // أضف الوصفة مع النوع والوصف
-      this.selectedRecipe[day] = this.recipes[0];// إعادة تعيين الوصفة بعد الإضافة
+      this.selectedMeals[day].push({ recipe, type });  // Add the selected recipe and type
+      this.selectedRecipe[day] = this.recipes[0];  // Reset recipe after adding
+
+      // Save the selected meals to Firestore
+      this.saveMealPlan();
     } else {
       console.error('Recipe or type is not selected.');
     }
   }
 
-  // إزالة وجبة
+  // Remove Meal Method
   removeMeal(day: string, meal: { recipe: any; type: string }) {
     const index = this.selectedMeals[day].indexOf(meal);
     if (index !== -1) {
-      this.selectedMeals[day].splice(index, 1); // حذف الوجبة
+      this.selectedMeals[day].splice(index, 1);  // Remove the meal from selectedMeals
     }
+    this.unsaveMeal(day, meal); // Unsave meal from Firestore
+  }
+
+  // Save the meal plan to Firestore (API call)
+  saveMealPlan() {
+    this.http.post(`http://localhost:3000/save-meal-plan/${this.userId}`, { selectedMeals: this.selectedMeals })
+      .subscribe(
+        (response: any) => {
+          console.log('Meal plan saved:', response);
+        },
+        (error) => {
+          console.error('Error saving meal plan:', error);
+        }
+      );
+  }
+
+  // Unsave meal from Firestore (API call)
+  unsaveMeal(day: string, mealToRemove: { recipe: any; type: string }) {
+    this.http.post(`http://localhost:3000/unsave-meal/${this.userId}`, { day, mealToRemove })
+      .subscribe(
+        (response: any) => {
+          console.log('Meal removed:', response);
+        },
+        (error) => {
+          console.error('Error removing meal:', error);
+        }
+      );
+  }
+
+  // Retrieve the meal plan from Firestore (API call)
+  retrieveMealPlan() {
+    this.http.get(`http://localhost:3000/get-meal-plan/${this.userId}`)
+      .subscribe(
+        (response: any) => {
+          console.log('Meal plan retrieved:', response);
+          this.selectedMeals = response.selectedMeals || this.selectedMeals;  // Assign retrieved meals
+        },
+        (error) => {
+          console.error('Error retrieving meal plan:', error);
+        }
+      );
   }
 }
