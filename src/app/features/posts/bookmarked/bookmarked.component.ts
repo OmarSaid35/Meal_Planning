@@ -16,8 +16,7 @@ export class BookmarkedComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.userId = localStorage.getItem('userId') || ''; // Retrieve userId from localStorage
-    console.log('User ID:', this.userId); // Debugging to ensure userId is valid
+    this.userId = localStorage.getItem('userId') || ''; 
     this.fetchBookmarkedPosts();
   }
   

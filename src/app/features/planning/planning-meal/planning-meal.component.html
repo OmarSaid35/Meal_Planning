@@ -16,12 +16,12 @@
         <h2>{{ day }}</h2>
   
         <div class="meal-input">
-          <!-- ليست بوكس لاختيار الوصفة -->
+          
           <select [(ngModel)]="selectedRecipe[day]">
             <option *ngFor="let recipe of recipes" [ngValue]="recipe">{{ recipe.name }}</option>
           </select>
   
-          <!-- ليست بوكس لاختيار نوع الوجبة -->
+         
           <select [(ngModel)]="mealTypes[day]">
             <option value="Breakfast">Breakfast</option>
             <option value="Lunch">Lunch</option>
@@ -30,11 +30,11 @@
 
           </select>
   
-          <!-- زر الإضافة -->
+          
           <button (click)="addMeal(day)">Add</button>
         </div>
   
-        <!-- قائمة الوجبات المضافة -->
+        
         <ul>
           <li *ngFor="let meal of selectedMeals[day]">
             <strong>{{ meal.recipe.name }}</strong> ({{ meal.type }})<br />

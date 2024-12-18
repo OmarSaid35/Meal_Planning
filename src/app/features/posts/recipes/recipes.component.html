@@ -42,7 +42,12 @@
               <h4>Ingredients</h4>
               <p>{{ recipe.ingredients.join(', ') }}</p>
             </div>
+            <div class="date">
+              <h4>date</h4>
+              <p>{{ recipe.timestamp | date }}</p>
+            </div>
           </div>
+
 
           <!-- Recipe Author -->
           <div class="author">

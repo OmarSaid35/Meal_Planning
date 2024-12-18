@@ -17,9 +17,9 @@ export class PostRecipeComponent {
   title: string = '';
   instructions: string = '';
   isLoading: boolean = false;
-  ingredients: string = ''; // Comma-separated ingredients
-  imageFile: File | null = null; // File for image upload
-  imageUrl: string = ''; // Uploaded image URL
+  ingredients: string = ''; 
+  imageFile: File | null = null; 
+  imageUrl: string = ''; 
   constructor(private http: HttpClient, private router: Router) {}
 
   uploadImage(file: File) {

@@ -25,7 +25,7 @@ export class PlanningMealComponent {
     Sunday: [],
   };
 
-  // قائمة الوصفات مع الوصف
+  
   recipes = [
     { name: 'Classic Spaghetti Carbonara', description: 'Boil spaghetti, cook pancetta, mix eggs with cheese, and combine.' },
     { name: 'Grilled Chicken Salad', description: 'Grill chicken, chop veggies, and mix with olive oil.' },
@@ -45,10 +45,10 @@ export class PlanningMealComponent {
   ];
 
   constructor(private http: HttpClient) {
-    this.userId = localStorage.getItem('userId') || 'default_user_id'; // Example to fetch user ID
+    this.userId = localStorage.getItem('userId') || 'default_user_id'; 
     this.days.forEach((day) => {
-      this.mealTypes[day] = 'Breakfast'; // النوع الافتراضي
-      this.selectedRecipe[day] = null; // الوصفة الافتراضية
+      this.mealTypes[day] = 'Breakfast';
+      this.selectedRecipe[day] = null; 
     });
   }
 

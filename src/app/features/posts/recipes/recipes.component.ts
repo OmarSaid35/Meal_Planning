@@ -12,16 +12,14 @@ import {RouterModule} from '@angular/router';
 })
 export class RecipesComponent implements OnInit {
   recipes: any[] = [];
-  userId: string = 'USER_ID'; // Replace this with the logged-in user's ID
+  userId: string = 'USER_ID'; 
   username: string = '';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Replace 'USER_ID' with the actual user ID after login
-    this.userId = localStorage.getItem('userId') || 'default_user_id'; // Example to fetch user ID
-    this.username = localStorage.getItem('username') || 'Guest'; // Fetch username from localStorage
-    console.log('User ID:', this.userId); // Debug user ID
+    this.userId = localStorage.getItem('userId') || 'default_user_id';
+    this.username = localStorage.getItem('username') || 'Guest'; 
     this.fetchAllRecipes();
     this.fetchRecipes();
   }
@@ -29,7 +27,7 @@ export class RecipesComponent implements OnInit {
   fetchAllRecipes() {
     this.http.get('http://localhost:3000/recipes').subscribe(
       (response: any) => {
-        console.log(response); // Check if 'postId' exists in the recipe object
+        console.log(response); 
         this.recipes = response;
       },
       (error) => {

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlanningMealComponent } from './planning-meal/planning-meal.component'; // تأكد من الاستيراد هنا
+import { PlanningMealComponent } from './planning-meal/planning-meal.component'; 
 
 const routes: Routes = [
-  { path: 'meal-planning', component: PlanningMealComponent }, // استخدام المكون المستقل هنا
+  { path: 'meal-planning', component: PlanningMealComponent },
 ];
 
 @NgModule({

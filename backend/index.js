@@ -181,7 +181,6 @@ app.get('/recipes', async (req, res) => {
 
 app.post('/save-recipe/:userId/:postId', async (req, res) => {
   const { userId, postId } = req.params;
-  console.log('User ID:', userId, 'Post ID:', postId); 
 
   try {
     const userRef = db.collection('users').doc(userId);
